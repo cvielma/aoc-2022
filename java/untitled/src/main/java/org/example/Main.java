@@ -3,7 +3,6 @@ package org.example;
 import java.util.Comparator;
 import java.util.Scanner;
 import java.util.TreeSet;
-import java.util.stream.Collectors;
 
 public class Main {
 
