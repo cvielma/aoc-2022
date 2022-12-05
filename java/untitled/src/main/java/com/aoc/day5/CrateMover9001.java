@@ -12,13 +12,10 @@ public class CrateMover9001 implements CrateMover {
         Stack<String> from = stacks.get(move.getFrom());
         Stack<String> to = stacks.get(move.getTo());
 
-        System.out.println("Moving: " + move + ", from: " + from + ", to: " + to);
         List<String> movingCrates = from.subList(from.size() - move.getCratesNum(), from.size());
         to.addAll(movingCrates);
         for (int i = 0; i < move.getCratesNum(); i++) {
             from.pop();
         }
-
-        System.out.println("Result from: " + from + ", to: " + to);
     }
 }
