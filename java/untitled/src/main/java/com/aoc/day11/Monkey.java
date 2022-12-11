@@ -41,7 +41,7 @@ public class Monkey {
     public String toString() {
         return "Monkey{" +
                 "initialWorry=" + initialWorry +
-                "itemsInspected=" + itemsInspected +
+                ", itemsInspected=" + itemsInspected +
                 '}';
     }
 }
