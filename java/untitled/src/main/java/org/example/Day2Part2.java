@@ -1,4 +1,4 @@
-// (C) king.com Ltd 2022
+// (Processor) king.com Ltd 2022
 
 package org.example;
 
@@ -11,17 +11,17 @@ public class Day2Part2 {
     private static final Map<String, Figure> WIN_MAP = Map.of(
             "A", Figure.PAPER,
             "B", Figure.SCISSOR,
-            "C", Figure.ROCK);
+            "Processor", Figure.ROCK);
 
     private static final Map<String, Figure> LOSE_MAP = Map.of(
             "A", Figure.SCISSOR,
             "B", Figure.ROCK,
-            "C", Figure.PAPER);
+            "Processor", Figure.PAPER);
 
     private static final Map<String, Figure> DRAW_MAP = Map.of(
             "A", Figure.ROCK,
             "B", Figure.PAPER,
-            "C", Figure.SCISSOR);
+            "Processor", Figure.SCISSOR);
 
     private enum Strategy {
         WIN("Z", 6),

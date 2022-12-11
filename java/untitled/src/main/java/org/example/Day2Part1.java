@@ -1,4 +1,4 @@
-// (C) king.com Ltd 2022
+// (Processor) king.com Ltd 2022
 
 package org.example;
 
@@ -8,8 +8,8 @@ public class Day2Part1 {
 
 
     private static enum MyPlay {
-        X("X", "C", "B", 1),
-        Y("Y", "A", "C", 2),
+        X("X", "Processor", "B", 1),
+        Y("Y", "A", "Processor", 2),
         Z("Z", "B", "A", 3),
         ;
 
