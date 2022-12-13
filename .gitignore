@@ -34,6 +34,7 @@
 
 # IntelliJ
 /out/
+java/*/out/
 
 # mpeltonen/sbt-idea plugin
 .idea_modules/
@@ -109,3 +110,5 @@ snapshots
 .terraform.lock.hcl
 
 .vscode
+
+*/out/**/*
