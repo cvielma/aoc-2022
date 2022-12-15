@@ -6,7 +6,7 @@ public interface Packet extends Comparable<Packet>{
 
     record Value(int value) implements Packet {
         PacketList toPacketList() {
-            return new PacketList(List.of(this), true);
+            return new PacketList(List.of(this));
         }
 
         @Override
@@ -15,11 +15,7 @@ public interface Packet extends Comparable<Packet>{
         }
     }
 
-    record PacketList(List<Packet> packetList, boolean wrapped) implements Packet {
-
-        PacketList(List<Packet> packetList) {
-            this(packetList, false);
-        }
+    record PacketList(List<Packet> packetList) implements Packet {
 
         void add(Packet packet) {
             this.packetList.add(packet);
@@ -42,32 +38,17 @@ public interface Packet extends Comparable<Packet>{
         if (this instanceof PacketList && o instanceof PacketList) {
             PacketList that = ((PacketList) this);
             PacketList other = ((PacketList) o);
-            for (int i = 0; i < that.packetList.size(); i++) {
-                if (other.packetList.size() <= i) {
-                    int result = other.wrapped ? -1 : 1;
-                    System.out.println("    - Right side is smaller (left: " + that + " {" + that.packetList.size() + "}, right: " + other + " {" + other.packetList.size() + "}). Result: " + ((result < 0) ? " right order" : " NOT right order"));
-                    return result;
-                }
-
+            for (int i = 0; i < Math.min(that.packetList.size(), other.packetList.size()); i++) {
                 Packet thatPacket = that.packetList.get(i);
                 Packet otherPacket = other.packetList.get(i);
 
-                if (thatPacket instanceof Value && otherPacket instanceof Value) {
-                    int comparisonResult = thatPacket.compareTo(otherPacket);
-                    if (comparisonResult != 0) {
-                        return comparisonResult;
-                    } else {
-                        continue;
-                    }
-                }
-
                 int comparisonResult = thatPacket.compareTo(otherPacket);
                 System.out.println("    - " + (comparisonResult <= 0 ? "Left is smaller, in right order." : "Right is smaller, NOT in right order.") + " (left: " + thatPacket + ", right: " + otherPacket + ")");
-                if (comparisonResult > 0) {
+                if (comparisonResult != 0) {
                     return comparisonResult;
                 }
             }
-            return -1; // right order
+            return that.packetList().size() - other.packetList().size();
         }
 
         if (this instanceof Value && o instanceof PacketList) {

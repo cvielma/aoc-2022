@@ -6,51 +6,44 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.Scanner;
+import java.util.stream.Collectors;
 
-public class Day13Part1 {
+public class Day13Part2 {
 
     private static final String test1 = "day13/day13-sample.txt";
     private static final String test2 = "day13/day13-a.txt";
 
     public static void main(String[] args) throws URISyntaxException, FileNotFoundException {
 
-        File input = new File(Day13Part1.class.getClassLoader().getResource(test2).toURI());
+        File input = new File(Day13Part2.class.getClassLoader().getResource(test2).toURI());
+        List<Packet> packets = new ArrayList<>();
+        Packet delimiter1 = new PacketList(List.of(new PacketList(List.of(new Packet.Value(2)))));
+        Packet delimiter2 = new PacketList(List.of(new PacketList(List.of(new Packet.Value(6)))));
+        packets.add(delimiter1);
+        packets.add(delimiter2);
         try (Scanner scanner = new Scanner(input)) {
-            int currPair = 1;
-            int totalSum = 0;
-            Packet packet1 = null;
-            Packet packet2 = null;
-
-            int packetRead = 0;
             while (scanner.hasNext()) {
                 String nextLine = scanner.nextLine();
                 if (nextLine.isBlank()) {
                     continue;
                 }
-
-                if (packetRead % 2 == 0) {
-                    packet1 = parsePacket(nextLine);
-                    packetRead++;
-                } else if (packetRead % 2 == 1){
-                    packet2 = parsePacket(nextLine);
-                    packetRead++;
+                packets.add(parsePacket(nextLine));
                 }
-
-                if (packetRead % 2 == 0) {
-                    System.out.println("==  PAIR: " + currPair + " ==");
-                    boolean rightOrder = isRightOrder(packet1, packet2);
-                    totalSum += rightOrder ? currPair : 0;
-                    System.out.println("    - Inputs are " + (rightOrder ? "**" : "NOT ") + "in the right order" + (rightOrder ? "**" : ""));
-                    packet1 = null;
-                    packet2 = null;
-                    currPair++;
-                    System.out.println("");
-                }
-            }
-
-            System.out.println(totalSum);
         }
+
+        Collections.sort(packets);
+
+        System.out.println("============ PACKETS:");
+        System.out.println(packets.stream().map(Packet::toString).collect(Collectors.joining("\n")));
+
+        int index1 = packets.indexOf(delimiter1) + 1;
+        int index2 = packets.indexOf(delimiter2) + 1;
+
+        System.out.println("Index1: " + index1 + ", index2: " + index2 + ". Total: " + (index1 * index2));
+
     }
 
     private static Packet parsePacket(String nextLine) {
@@ -87,9 +80,5 @@ public class Day13Part1 {
             sb = new StringBuilder();
         }
         return sb;
-    }
-
-    private static boolean isRightOrder(Packet packet1, Packet packet2) {
-        return packet1.compareTo(packet2) <= 0;
     }
 }
